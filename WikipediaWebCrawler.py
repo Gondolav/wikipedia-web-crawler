@@ -1,7 +1,7 @@
 import time
 import urllib
-import requests
 from bs4 import BeautifulSoup
+import requests
 
 MAXIMUM_SEARCH_LENGTH = 25
 
@@ -45,9 +45,9 @@ def find_first_link(url):
 
     article_link = None
 
-    for element in content_div.children:
-        if element.p.a:
-            first_relative_link = element.p.a.get('href')
+    for element in content_div.find_all("p", recursive=False):
+        if element.find("a", recursive=False):
+            article_link = element.find("a", recursive=False).get('href')
             break
 
     if not article_link:
@@ -56,3 +56,5 @@ def find_first_link(url):
     first_link = urllib.parse.urljoin('https://en.wikipedia.org/', article_link)
 
     return first_link
+
+web_crawl()
