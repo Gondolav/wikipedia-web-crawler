@@ -24,7 +24,7 @@ def continue_crawl(search_history, target_url, maximum_search_length):
         return False
 
     if (len(search_history) >= maximum_search_length):
-        print("Search history has more than 25 entries; search aborted")
+        print("Search history has more than {length} entries; search aborted".format(length=maximum_search_length))
         return False
 
     if (len(search_history) > len(set(search_history))):
