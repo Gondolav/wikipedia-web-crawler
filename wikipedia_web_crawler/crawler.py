@@ -1,17 +1,13 @@
 import time
 import urllib
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
 
-MAXIMUM_SEARCH_LENGTH = 25
-
-start_url = "https://en.wikipedia.org/wiki/Special:Random"
-target_url = "https://en.wikipedia.org/wiki/Philosophy"
-article_chain = [start_url]
-
-def web_crawl():
+def web_crawl(start_url, target_url, maximum_search_length):
+    """Starts crawling the web from start_url until target_url or the maximum search length is reached."""
+    article_chain = [start_url]
     print("Searching...")
-    while continue_crawl(article_chain, target_url):
+    while continue_crawl(article_chain, target_url, maximum_search_length):
         print(article_chain[-1])
         first_link = find_first_link(article_chain[-1])
 
@@ -22,12 +18,12 @@ def web_crawl():
         article_chain.append(first_link)
         time.sleep(2)
 
-def continue_crawl(search_history, target_url):
+def continue_crawl(search_history, target_url, maximum_search_length):
     if (search_history[-1] == target_url):
         print("Target article found; search completed")
         return False
 
-    if (len(search_history) >= MAXIMUM_SEARCH_LENGTH):
+    if (len(search_history) >= maximum_search_length):
         print("Search history has more than 25 entries; search aborted")
         return False
 
@@ -56,5 +52,3 @@ def find_first_link(url):
     first_link = urllib.parse.urljoin('https://en.wikipedia.org/', article_link)
 
     return first_link
-
-web_crawl()
